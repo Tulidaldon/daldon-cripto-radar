@@ -1,5 +1,460 @@
 
 <!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daldon Cripto Radar</title>
+<style>
+:root {
+  --bg:#0b1020; --panel:#141c30; --line:#28344d;
+  --text:#edf3ff; --muted:#9cacc7; --accent:#65e0bd;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Arial,Helvetica,sans-serif; line-height:1.5;
+}
+header {
+  padding:28px 18px; text-align:center;
+  background:linear-gradient(135deg,#142746,#101526);
+  border-bottom:1px solid var(--line);
+}
+header h1 { margin:0; font-size:clamp(25px,5vw,38px); }
+header p { color:var(--muted); margin:8px 0 0; }
+main { max-width:1100px; margin:auto; padding:22px 16px 40px; }
+.notice {
+  background:#172a31; border:1px solid #285347;
+  padding:13px 15px; border-radius:12px; margin-bottom:20px;
+}
+.notice strong { color:var(--accent); }
+h2 { font-size:21px; margin:27px 0 12px; }
+h3 { margin-top:0; }
+.controls { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 20px; }
+input,select,textarea {
+  background:var(--panel); color:var(--text);
+  border:1px solid var(--line); border-radius:9px;
+  padding:12px; font-size:15px; width:100%;
+}
+input[type="range"] { padding:0; accent-color:var(--accent); }
+select { cursor:pointer; }
+button {
+  background:var(--accent); color:#081b19; border:0;
+  border-radius:9px; padding:12px 16px; font-weight:bold;
+  cursor:pointer; font-size:14px;
+}
+button:hover { filter:brightness(1.08); }
+button.secondary {
+  background:#26334b; color:var(--text);
+  border:1px solid var(--line);
+}
+button.danger { background:#49252d; color:#ffe1e5; }
+.grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(235px,1fr));
+  gap:14px;
+}
+.card {
+  background:var(--panel); border:1px solid var(--line);
+  border-radius:13px; padding:17px; min-width:0;
+}
+.card h3 { margin-bottom:7px; font-size:18px; }
+.card p { color:var(--muted); margin:7px 0; font-size:14px; }
+.card strong { color:var(--text); }
+.tag {
+  display:inline-block; color:var(--accent);
+  background:#19352f; border-radius:6px;
+  padding:3px 8px; font-size:12px; margin-bottom:9px;
+}
+.small { color:var(--muted); font-size:13px; }
+.form-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+.field { display:flex; flex-direction:column; gap:7px; }
+.field label { font-size:14px; font-weight:bold; }
+.field small { color:var(--muted); }
+.range-value { color:var(--accent); font-weight:bold; }
+.actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+.history-item { margin-bottom:13px; }
+.score {
+  color:var(--accent); font-size:25px; font-weight:bold;
+}
+.hidden { display:none !important; }
+.empty {
+  border:1px dashed var(--line); border-radius:12px;
+  padding:22px; text-align:center; color:var(--muted);
+}
+footer {
+  border-top:1px solid var(--line); margin-top:30px;
+  padding-top:18px; color:var(--muted); font-size:13px;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>🛰️ Daldon Cripto Radar</h1>
+  <p>Narrativas, tendências e oportunidades no mercado cripto</p>
+</header>
+
+<main>
+  <div class="notice">
+    <strong>Radar em construção</strong><br>
+    Use este painel para organizar pesquisas e registrar suas avaliações.
+    As notas são suas avaliações, não previsões nem recomendações de compra.
+  </div>
+
+  <h2>🔎 Explorar narrativas</h2>
+  <p class="small">Pesquise uma categoria, tecnologia ou projeto.</p>
+  <div class="controls">
+    <input id="busca" type="search"
+      placeholder="Ex.: RWA, inteligência artificial, Base..."
+      aria-label="Pesquisar narrativas">
+    <select id="categoria" aria-label="Filtrar por categoria">
+      <option value="todas">Todas as categorias</option>
+      <option value="infraestrutura">Infraestrutura e redes</option>
+      <option value="rwa">RWA e tokenização</option>
+      <option value="ia">Inteligência artificial</option>
+      <option value="defi">DeFi e stablecoins</option>
+      <option value="depin">DePIN</option>
+      <option value="ecossistema">Ecossistemas e plataformas</option>
+    </select>
+  </div>
+
+  <div class="grid" id="painel">
+    <article class="card" data-cat="infraestrutura">
+      <span class="tag">Infraestrutura</span>
+      <h3>Bitcoin (BTC)</h3>
+      <p>Ativo de referência do mercado cripto.</p>
+      <p><strong>Investigar:</strong> adoção, fluxos de capital, ETFs e ciclos de mercado.</p>
+    </article>
+    <article class="card" data-cat="infraestrutura">
+      <span class="tag">Infraestrutura</span>
+      <h3>Ethereum (ETH)</h3>
+      <p>Rede de contratos inteligentes e aplicações descentralizadas.</p>
+      <p><strong>Investigar:</strong> atividade da rede, staking e soluções de segunda camada.</p>
+    </article>
+    <article class="card" data-cat="ecossistema">
+      <span class="tag">Ecossistema</span>
+      <h3>Solana (SOL)</h3>
+      <p>Rede com aplicações financeiras, pagamentos e negociação de ativos.</p>
+      <p><strong>Investigar:</strong> usuários, volume e novos projetos.</p>
+    </article>
+    <article class="card" data-cat="ecossistema">
+      <span class="tag">Ecossistema</span>
+      <h3>XRP / XRP Ledger</h3>
+      <p>Ecossistema associado a pagamentos e movimentação de ativos.</p>
+      <p><strong>Investigar:</strong> adoção, tokenização e atividade da rede.</p>
+    </article>
+    <article class="card" data-cat="rwa">
+      <span class="tag">RWA</span>
+      <h3>Tokenização de ativos</h3>
+      <p>Representação de ativos tradicionais em redes blockchain.</p>
+      <p><strong>Investigar:</strong> títulos, fundos, crédito e imóveis tokenizados.</p>
+    </article>
+    <article class="card" data-cat="ia">
+      <span class="tag">Inteligência artificial</span>
+      <h3>IA + Blockchain</h3>
+      <p>Projetos que conectam inteligência artificial e infraestrutura cripto.</p>
+      <p><strong>Investigar:</strong> uso real, demanda e atividade dos projetos.</p>
+    </article>
+    <article class="card" data-cat="defi">
+      <span class="tag">DeFi</span>
+      <h3>Finanças descentralizadas</h3>
+      <p>Empréstimos, negociações e serviços financeiros on-chain.</p>
+      <p><strong>Investigar:</strong> valor bloqueado, receitas, usuários e riscos.</p>
+    </article>
+    <article class="card" data-cat="defi">
+      <span class="tag">Stablecoins</span>
+      <h3>Dólar digital</h3>
+      <p>Moedas projetadas para manter valor estável em relação a uma referência.</p>
+      <p><strong>Investigar:</strong> oferta, reservas, uso e redes de circulação.</p>
+    </article>
+    <article class="card" data-cat="depin">
+      <span class="tag">DePIN</span>
+      <h3>Infraestrutura física descentralizada</h3>
+      <p>Redes que incentivam participantes a fornecer recursos físicos ou digitais.</p>
+      <p><strong>Investigar:</strong> demanda, receita e sustentabilidade.</p>
+    </article>
+    <article class="card" data-cat="ecossistema">
+      <span class="tag">Base / Coinbase</span>
+      <h3>Ecossistema Base</h3>
+      <p>Rede de segunda camada do Ethereum associada à Coinbase.</p>
+      <p><strong>Investigar:</strong> aplicações, usuários, taxas e liquidez.</p>
+    </article>
+    <article class="card" data-cat="rwa">
+      <span class="tag">Tokenização</span>
+      <h3>Robinhood e ativos tokenizados</h3>
+      <p>Acompanhar iniciativas de tokenização e acesso a ativos financeiros.</p>
+      <p><strong>Investigar:</strong> anúncios oficiais, disponibilidade e redes utilizadas.</p>
+    </article>
+  </div>
+  <p id="resultado" class="small" aria-live="polite"></p>
+
+  <h2>📝 Registrar uma análise</h2>
+  <p class="small">Avalie o que você pesquisou. Dê notas com base em evidências, não apenas na expectativa de valorização.</p>
+
+  <form id="formAnalise" class="card">
+    <div class="form-grid">
+      <div class="field">
+        <label for="nome">Narrativa ou projeto</label>
+        <input id="nome" required maxlength="100"
+          placeholder="Ex.: RWA, Base, projeto XYZ">
+      </div>
+      <div class="field">
+        <label for="token">Token relacionado (opcional)</label>
+        <input id="token" maxlength="30" placeholder="Ex.: ETH">
+      </div>
+      <div class="field">
+        <label for="evidencia">Evidência pesquisada</label>
+        <select id="evidencia">
+          <option value="Ainda não verificada">Ainda não verificada</option>
+          <option value="Notícias e anúncios">Notícias e anúncios</option>
+          <option value="Dados de atividade">Dados de atividade</option>
+          <option value="Adoção e receita verificadas">Adoção e receita verificadas</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="risco">Risco percebido</label>
+        <select id="risco">
+          <option value="Não avaliado">Ainda não avaliado</option>
+          <option value="Baixo">Baixo</option>
+          <option value="Médio">Médio</option>
+          <option value="Alto">Alto</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-grid" style="margin-top:18px">
+      <div class="field">
+        <label for="forca">Força da tendência: <span id="vForca" class="range-value">5/10</span></label>
+        <input id="forca" type="range" min="0" max="10" value="5">
+        <small>Há sinais de interesse crescente?</small>
+      </div>
+      <div class="field">
+        <label for="adocao">Adoção real: <span id="vAdocao" class="range-value">5/10</span></label>
+        <input id="adocao" type="range" min="0" max="10" value="5">
+        <small>Existem usuários, atividade ou receita verificáveis?</small>
+      </div>
+      <div class="field">
+        <label for="potencial">Potencial do token: <span id="vPotencial" class="range-value">5/10</span></label>
+        <input id="potencial" type="range" min="0" max="10" value="5">
+        <small>O token pode capturar valor do crescimento?</small>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:18px">
+      <label for="observacoes">Observações e fontes consultadas</label>
+      <textarea id="observacoes" rows="4" maxlength="1500"
+        placeholder="Registre fatos, links de fontes, dúvidas e riscos."></textarea>
+    </div>
+
+    <div class="actions">
+      <button type="submit">Salvar análise</button>
+      <button type="reset" class="secondary">Limpar formulário</button>
+    </div>
+    <p class="small">As notas são avaliações pessoais e não representam probabilidades de lucro.</p>
+  </form>
+
+  <h2>📚 Histórico de análises</h2>
+  <p class="small">Os registros ficam armazenados neste navegador e neste dispositivo.</p>
+  <div id="historico"></div>
+  <div class="actions">
+    <button id="exportar" type="button" class="secondary">Exportar histórico (JSON)</button>
+  </div>
+
+  <h2>🧭 Como avaliar uma narrativa</h2>
+  <div class="grid">
+    <article class="card">
+      <h3>1. Atenção do mercado</h3>
+      <p>Pesquisas, notícias e discussões estão aumentando? Compare períodos e fontes.</p>
+    </article>
+    <article class="card">
+      <h3>2. Atividade real</h3>
+      <p>Procure usuários, volume, receita e adoção verificáveis.</p>
+    </article>
+    <article class="card">
+      <h3>3. Token relacionado</h3>
+      <p>Verifique se existe token e se ele realmente captura valor dessa atividade.</p>
+    </article>
+    <article class="card">
+      <h3>4. Riscos e preço</h3>
+      <p>Considere liquidez, concorrência, desbloqueios de tokens, segurança e valorização excessiva.</p>
+    </article>
+  </div>
+
+  <footer>
+    Daldon Cripto Radar · Versão experimental<br>
+    As informações desta página não são cotações ao vivo.
+    Faça sua própria pesquisa. Isto não constitui recomendação de investimento.
+  </footer>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const busca = $("busca");
+const categoria = $("categoria");
+const cards = document.querySelectorAll("#painel .card");
+
+function filtrar() {
+  const termo = busca.value.toLocaleLowerCase("pt-BR").trim();
+  const cat = categoria.value;
+  let visiveis = 0;
+
+  cards.forEach(card => {
+    const texto = card.textContent.toLocaleLowerCase("pt-BR");
+    const mostrar = texto.includes(termo) &&
+      (cat === "todas" || card.dataset.cat === cat);
+    card.classList.toggle("hidden", !mostrar);
+    if (mostrar) visiveis++;
+  });
+  $("resultado").textContent = visiveis + " item(ns) encontrado(s).";
+}
+busca.addEventListener("input", filtrar);
+categoria.addEventListener("change", filtrar);
+filtrar();
+
+["forca", "adocao", "potencial"].forEach(id => {
+  $(id).addEventListener("input", () => {
+    const destino = {
+      forca:"vForca", adocao:"vAdocao", potencial:"vPotencial"
+    }[id];
+    $(destino).textContent = $(id).value + "/10";
+  });
+});
+
+const CHAVE = "daldonRadarAnalisesV1";
+let analises = [];
+
+try {
+  const guardadas = localStorage.getItem(CHAVE);
+  analises = guardadas ? JSON.parse(guardadas) : [];
+  if (!Array.isArray(analises)) analises = [];
+} catch (erro) {
+  analises = [];
+}
+
+function guardar() {
+  try {
+    localStorage.setItem(CHAVE, JSON.stringify(analises));
+    return true;
+  } catch (erro) {
+    alert("Não foi possível guardar no navegador. Exporte seus registros e verifique as configurações de armazenamento.");
+    return false;
+  }
+}
+
+function mostrarHistorico() {
+  const area = $("historico");
+  area.replaceChildren();
+
+  if (!analises.length) {
+    const vazio = document.createElement("div");
+    vazio.className = "empty";
+    vazio.textContent = "Nenhuma análise registrada ainda. Use o formulário acima para começar.";
+    area.appendChild(vazio);
+    return;
+  }
+
+  [...analises].reverse().forEach(item => {
+    const card = document.createElement("article");
+    card.className = "card history-item";
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = item.nome + (item.token ? " (" + item.token + ")" : "");
+
+    const data = document.createElement("p");
+    data.textContent = "Registrado em: " + item.data;
+
+    const score = document.createElement("div");
+    score.className = "score";
+    score.textContent = "Média das notas: " + item.media + "/10";
+
+    const detalhes = document.createElement("p");
+    detalhes.textContent = "Tendência: " + item.forca + "/10 · Adoção: " +
+      item.adocao + "/10 · Potencial: " + item.potencial + "/10";
+
+    const risco = document.createElement("p");
+    risco.textContent = "Evidência: " + item.evidencia + " · Risco: " + item.risco;
+
+    const obs = document.createElement("p");
+    obs.textContent = item.observacoes || "Sem observações registradas.";
+
+    const excluir = document.createElement("button");
+    excluir.type = "button";
+    excluir.className = "danger";
+    excluir.textContent = "Excluir registro";
+    excluir.addEventListener("click", () => {
+      if (!confirm("Deseja excluir esta análise?")) return;
+      analises = analises.filter(a => a.id !== item.id);
+      if (guardar()) mostrarHistorico();
+    });
+
+    card.append(titulo, data, score, detalhes, risco, obs, excluir);
+    area.appendChild(card);
+  });
+}
+
+$("formAnalise").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const forca = Number($("forca").value);
+  const adocao = Number($("adocao").value);
+  const potencial = Number($("potencial").value);
+
+  const item = {
+    id: Date.now().toString() + Math.random().toString(16).slice(2),
+    nome: $("nome").value.trim(),
+    token: $("token").value.trim(),
+    evidencia: $("evidencia").value,
+    risco: $("risco").value,
+    forca, adocao, potencial,
+    media: ((forca + adocao + potencial) / 3).toFixed(1),
+    observacoes: $("observacoes").value.trim(),
+    data: new Date().toLocaleString("pt-BR")
+  };
+
+  if (!item.nome) {
+    alert("Informe o nome da narrativa ou do projeto.");
+    return;
+  }
+
+  analises.push(item);
+  if (guardar()) {
+    mostrarHistorico();
+    event.target.reset();
+    ["forca", "adocao", "potencial"].forEach(id => {
+      const destino = {forca:"vForca", adocao:"vAdocao", potencial:"vPotencial"}[id];
+      $(destino).textContent = $(id).value + "/10";
+    });
+    $("historico").scrollIntoView({behavior:"smooth", block:"start"});
+  } else {
+    analises.pop();
+  }
+});
+
+$("exportar").addEventListener("click", () => {
+  if (!analises.length) {
+    alert("Ainda não há análises para exportar.");
+    return;
+  }
+  const arquivo = new Blob(
+    [JSON.stringify(analises, null, 2)],
+    {type:"application/json;charset=utf-8"}
+  );
+  const url = URL.createObjectURL(arquivo);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "daldon-cripto-radar-analises.json";
+  link.click();
+  URL.revokeObjectURL(url);
+});
+
+mostrarHistorico();
+</script>
+</body>
+</html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
