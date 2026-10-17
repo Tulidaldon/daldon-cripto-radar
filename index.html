@@ -400,14 +400,7 @@ filtrar();
 ["forca", "adocao", "potencial", "riscos"].forEach(id => {
   $(id).addEventListener("input", () => {
     const destino = {
-      forca: "vForca",
-      adocao: "vAdocao",
-      potencial: "vPotencial",
-      riscos: "vRiscos"
-    }[id];
-    $(destino).textContent = $(id).value + "/5";
-  });
-});
+  ["forca", "adocao", "potencial", "riscos"].forEach(id => {    
       forca:"vForca", adocao:"vAdocao", potencial:"vPotencial"
     }[id];
     $(destino).textContent = $(id).value + "/10";
