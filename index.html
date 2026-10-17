@@ -397,15 +397,20 @@ busca.addEventListener("input", filtrar);
 categoria.addEventListener("change", filtrar);
 filtrar();
 
+
 ["forca", "adocao", "potencial", "riscos"].forEach(id => {
   $(id).addEventListener("input", () => {
     const destino = {
-  ["forca", "adocao", "potencial", "riscos"].forEach(id => {    
-      forca:"vForca", adocao:"vAdocao", potencial:"vPotencial"
+      forca: "vForca",
+      adocao: "vAdocao",
+      potencial: "vPotencial",
+      riscos: "vRiscos"
     }[id];
-    $(destino).textContent = $(id).value + "/10";
+
+    $(destino).textContent = $(id).value + "/5";
   });
 });
+
 
 const CHAVE = "daldonRadarAnalisesV1";
 let analises = [];
