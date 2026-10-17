@@ -233,20 +233,27 @@ footer {
 
     <div class="form-grid" style="margin-top:18px">
       <div class="field">
-        <label for="forca">Força da tendência: <span id="vForca" class="range-value">5/10</span></label>
-        <input id="forca" type="range" min="0" max="10" value="5">
+        <label for="forca">Atenção do mercado: <span id="vForca" class="range-value">3/5</span></label>
+        <input id="forca" type="range" min="0" max="5" value="3">
         <small>Há sinais de interesse crescente?</small>
       </div>
       <div class="field">
-        <label for="adocao">Adoção real: <span id="vAdocao" class="range-value">5/10</span></label>
-        <input id="adocao" type="range" min="0" max="10" value="5">
+      <label for="adocao">Adoção real: <span id="vAdocao" class="range-value">3/5</span></label>  
+        <input id="adocao" type="range" min="0" max="5" value="3">
         <small>Existem usuários, atividade ou receita verificáveis?</small>
       </div>
       <div class="field">
-        <label for="potencial">Potencial do token: <span id="vPotencial" class="range-value">5/10</span></label>
-        <input id="potencial" type="range" min="0" max="10" value="5">
+        <label for="potencial">Valor capturado pelo token: <span id="vPotencial" class="range-value">3/5</span></label>
+        <input id="potencial" type="range" min="0" max="5" value="3">
         <small>O token pode capturar valor do crescimento?</small>
       </div>
+      
+      <div class="field">
+        <label for="riscos">Controle dos riscos: <span id="vRiscos" class="range-value">3/5</span></label>
+        <input id="riscos" type="range" min="0" max="5" value="3">
+        <small>Os riscos e o preço atual parecem razoáveis?</small>
+      </div>
+
     </div>
 
     <div class="field" style="margin-top:18px">
@@ -390,9 +397,17 @@ busca.addEventListener("input", filtrar);
 categoria.addEventListener("change", filtrar);
 filtrar();
 
-["forca", "adocao", "potencial"].forEach(id => {
+["forca", "adocao", "potencial", "riscos"].forEach(id => {
   $(id).addEventListener("input", () => {
     const destino = {
+      forca: "vForca",
+      adocao: "vAdocao",
+      potencial: "vPotencial",
+      riscos: "vRiscos"
+    }[id];
+    $(destino).textContent = $(id).value + "/5";
+  });
+});
       forca:"vForca", adocao:"vAdocao", potencial:"vPotencial"
     }[id];
     $(destino).textContent = $(id).value + "/10";
@@ -444,11 +459,15 @@ function mostrarHistorico() {
 
     const score = document.createElement("div");
     score.className = "score";
-    score.textContent = "Média das notas: " + item.media + "/10";
+    score.textContent = "Pontuação total: " + (item.pontuacao !== undefined ? item.pontuacao : Math.round(Number(item.media || 0) * 2)) + "/20";
 
     const detalhes = document.createElement("p");
-    detalhes.textContent = "Tendência: " + item.forca + "/10 · Adoção: " +
-      item.adocao + "/10 · Potencial: " + item.potencial + "/10";
+    
+detalhes.textContent = "Atenção: " + item.forca + "/5 · Adoção: " +
+  item.adocao + "/5 · Valor do token: " + item.potencial + "/5 · Riscos: " +
+  (item.riscos !== undefined ? item.riscos : "—") + "/5";
+
+
 
     const risco = document.createElement("p");
     risco.textContent = "Evidência: " + item.evidencia + " · Risco: " + item.risco;
@@ -477,6 +496,7 @@ $("formAnalise").addEventListener("submit", event => {
   const forca = Number($("forca").value);
   const adocao = Number($("adocao").value);
   const potencial = Number($("potencial").value);
+  const riscos = Number($("riscos").value);
 
   const item = {
     id: Date.now().toString() + Math.random().toString(16).slice(2),
@@ -485,7 +505,8 @@ $("formAnalise").addEventListener("submit", event => {
     evidencia: $("evidencia").value,
     risco: $("risco").value,
     forca, adocao, potencial,
-    media: ((forca + adocao + potencial) / 3).toFixed(1),
+    riscos,
+pontuacao: forca + adocao + potencial + riscos,
     observacoes: $("observacoes").value.trim(),
     data: new Date().toLocaleString("pt-BR")
   };
